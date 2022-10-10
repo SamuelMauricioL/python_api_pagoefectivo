@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Configuración</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'cadmin/css/style.css' %}">
+</head>
+
+<body>
+  <div class="pagina" >
+    <!--página inicio-->
+    
+      <div class="barraTitulo" >
+      <!--barraTítulo inicio-->
+        <div class="alineado margenIzquierdo10 margenSuperior10" ><img src="{% static 'cadmin/img/logoPagoEfectivo.png' %}" /></div>
+        <div class="lineaSeparadoraVertical alineado margenIzquierdo20" ></div>
+        <div class="titulo alineado" >Configuración: "Pasarela de PagoEfectivo"</div>
+      </div>
+      <!--barraTítulo fin-->
+      
+      <div class="barraMenu" ><!--barraMenu inicio-->
+    
+      <div class="itemMenu margenIzquierdo5 margenSuperior20" >CÓDIGO DE PAGO</div>
+    
+      <div class="itemMenu" >
+      <img src="{% static 'cadmin/img/vinetaCruz.png' %}" class="vinetaItemMenu alineado margenIzquierdo10 margenSuperior5" />
+      <div class="alineado margenIzquierdo5 margenSuperior5" >
+        <!-- <a href="{% url 'home' %}">Generar CIP</a> -->
+        <a href="{% url 'home' %}">Generar CIP</a>
+      </div>
+      </div>
+    
+      <div class="itemMenu" >
+      <img src="{% static 'cadmin/img/vinetaSiguiente.png' %}" class="vinetaItemMenu alineado margenIzquierdo10 margenSuperior5" />
+      <div class="alineado margenIzquierdo5 margenSuperior5" ><a href="{% url 'notification' %}">Notificación CIP</a></div>	
+      </div>
+    
+      <div class="itemMenuPie" >	
+      <img src="{% static 'cadmin/img/vinetaAyuda.png' %}" class="vinetaItemMenuPie alineado margenIzquierdo10 margenSuperior5" />
+      <div class=" alineado margenIzquierdo5 margenSuperior5" ><a href="https://centraldeayuda.pagoefectivo.pe/hc/es">Ayuda</a></div>
+      </div>
+      
+      <div class="itemMenuPie itemMenuSeleccionado" >			
+      <img src="{% static 'cadmin/img/vinetaConfiguracion.png' %}" class="vinetaItemMenuPie alineado margenIzquierdo10 margenSuperior5" />			
+      <div class="alineado margenIzquierdo5 margenSuperior5" ><a href="{% url 'configuration' %}">Configuración</a></div>			
+      </div>
+      
+        <div class="siguienteLinea lineaMenu" ></div>	
+        
+      <div class="alineado" >	
+      <img src="{% static 'cadmin/img/vinetaAtras.png' %}" class="vinetaInferiorDerechaMenuPie alineado" />
+      </div>
+      
+      </div><!--barraMenu fin-->
+    
+      <div class="cuerpo" ><!--cuerpo inicio--> 
+      {% if key_filed == "1" %}
+        <div id="accionMensaje" class="mensajeCorrecto show-save ">La configuración se guardó satisfactoriamente</div>
+      {% endif %}
+      {% if key_filed == "2" %}
+        <div id="accionMensaje" class="mensajeIncorrecto ">La configuración no se guardó</div>
+      {% endif %}
+
+      <form action="" method="post" name="configuraFormulario" id="configuraFormulario" autocomplete="off" >
+        {% csrf_token %}
+        {{form}}
+        <div class="siguienteLinea margenInferior5" >
+        <div class="etiqueta" >Servidor PagoEfectivo (*)</div>
+        <input name="ServidorPagoEfectivo" id="ServidorPagoEfectivo" value="{% if ServidorPagoEfectivoLoaded %}{{ServidorPagoEfectivoLoaded}}{% else %}{{form.ServidorPagoEfectivo.value}}{% endif %}"   
+          type="text" class="cajaTexto ancho500" placeholder="Url del servidor de PagoEfectivo (Testing/ Producción)"  />
+            <!-- {% if empty1 == "1" %} -->
+                <!-- {% endif %}	 -->
+        <div id="ServidorPagoEfectivoMensaje" class="mensajeRequerido" style="display: none;">Indique la url de PagoEfectivo</div>		
+        </div>
+        
+        <div class="siguienteLinea margenInferior5" >
+        <div class="etiqueta" >AccessKey (*)</div>
+        <input name="AccessKey" id="AccessKey" value="{% if AccessKeyLoaded %}{{AccessKeyLoaded}}{% else %}{{form.AccessKey.value}}{% endif %}"
+        type="text" class="cajaTexto ancho500" placeholder="AccessKey del servidor de PagoEfectivo (Testing/ Producción)"  />	
+        <!-- {% if empty2 == "1" %} -->
+        <!-- {% endif %}	 -->
+        <div id="AccessKeyMensaje" class="mensajeRequerido" style="display: none;" >Cargue la AccessKey</div>
+        </div>
+        
+        <div class="siguienteLinea margenInferior5" >
+        <div class="etiqueta" >SecretKey (*)</div>
+        <input name="SecretKey" id="SecretKey" value="{% if SecretKeyLoaded %}{{SecretKeyLoaded}}{% else %}{{form.SecretKey.value}}{% endif %}" 
+        type="text" class="cajaTexto ancho500" placeholder="SecretKey del servidor de PagoEfectivo (Testing/ Producción)"  />	
+        <!-- {% if empty3 == "1" %} -->
+        <!-- {% endif %}	 -->
+        <div id="SecretKeyMensaje" class="mensajeRequerido" style="display: none;">Cargue la SecretKey</div>
+        </div>
+        
+          <hr class="lineaSeparadoraHorizontal" />
+          <br/>
+    
+        <div class="siguienteLinea margenInferior5" >			
+        <div class="etiqueta" >ID del Comercio (*)</div>
+        <input name="IDComercio" id="IDComercio" type="number" value="{% if IDComercioLoaded %}{{IDComercioLoaded}}{% else %}{{form.IDComercio.value}}{% endif %}"  
+        
+        type="text" class="cajaTexto ancho500" placeholder="Ingresa tu ID"  />
+        <!-- {% if empty4 == "1" %}	 -->
+        <!-- {% endif %}	 -->
+        <div id="IDComercioMensaje" class="mensajeRequerido" style="display: none;">Indique el código del comercio</div>
+        </div>
+        
+        <div class="siguienteLinea margenInferior5" >
+        <div class="etiqueta" >Nombre del Comercio (*)</div>
+        <input name="NombreComercio" id="NombreComercio" value="{% if NombreComercioLoaded %}{{NombreComercioLoaded}}{% else %}{{form.NombreComercio.value}}{% endif %}" 
+        type="text" class="cajaTexto ancho500" placeholder="Nombre del comercio para el concepto de pago"  />
+        <!-- {% if empty5 == "1" %}		 -->
+        <!-- {% endif %}	 -->
+        <div id="NombreComercioMensaje" class="mensajeRequerido" style="display: none;">Indique el nombre del comercio</div>
+        </div>
+        
+        <div class="siguienteLinea margenInferior5" >
+        <div class="etiqueta" >Email del Comercio (*)</div>
+        <input name="EmailComercio" id="EmailComercio" value="{% if EmailComercioLoaded %}{{EmailComercioLoaded}}{% else %}{{form.EmailComercio.value}}{% endif %}" 
+        class="cajaTexto ancho500" placeholder="Email del comercio para envío de comunicaciones"  />	
+        <!-- {% if empty6 == "1" %}		 -->
+        <!-- {% endif %}	 -->
+        <div id="EmailComercioMensaje" class="mensajeRequerido" style="display: none;">Indique el email del comercio</div>
+      </div>
+        
+          <hr class="lineaSeparadoraHorizontal" />
+          <br/>
+    
+        <div class="siguienteLinea margenInferior5" >
+        <div class="etiqueta" >Modo de Integración (*)</div>
+        <select name="ModoIntegracion" id="ModoIntegracion" class="combo ancho500"  >
+            <option value="{% if ModoIntegracionLoaded %}{{ModoIntegracionLoaded}}{% else %}{{form.ModoIntegracion.value}}{% endif %}" disabled selected hidden >
+              {% if not ModoIntegracionLoaded and not form.ModoIntegracion.value %}
+                <span id="a-int-default">Selecciona la modalidad de integración</span>
+              {% endif %}
+              {% if form.ModoIntegracion.value == "IFR" or ModoIntegracionLoaded == "IFR" %}
+                Iframe
+              {% endif %}
+              {% if form.ModoIntegracion.value == "RED" or ModoIntegracionLoaded == "RED" %}
+                Redirect
+              {% endif %}
+            </option>
+            <option value="IFR" id="iframe" >Iframe</option>
+            <option value="RED" id="redirect" >Redirect</option>			
+        </select>
+        <!-- {% if empty7 == "1" %}		  -->
+        <!-- {% endif %}	 -->
+        <div  id="ModoIntegracionMensaje" class="mensajeRequerido" style="display: none;">Indique la modalidad de integración</div>
+        </div>
+        
+        <div class="siguienteLinea margenInferior5" >
+        <div class="etiqueta" >Tiempo de expiración del Pago (*)</div>
+          <input name="TiempoExpiracionPago" id="TiempoExpiracionPago" type="number" value="{% if TiempoExpiracionPagoLoaded %}{{TiempoExpiracionPagoLoaded}}{% else %}{{form.TiempoExpiracionPago.value}}{% endif %}"
+          class="cajaTexto ancho300" placeholder="000"  /><div class="mensajePlaceholder" >Horas</div>
+        <!-- {% if empty8 == "1" %}		 --> 
+        <!-- {% endif %}	 -->
+        <div id="TiempoExpiracionPagoMensaje" class="mensajeRequeridoAlterno" style="display: none;">Indique el tiempo de expiración del pago</div>	
+        </div>
+        
+        <div class="siguienteLinea margenInferior5" >		
+        <div class="etiqueta" >País (*)</div>
+        <select name="Pais" id="Pais"  class="combo ancho500"> 
+              <option value="{% if countryLoaded %}{{countryLoaded}}{% else %}{{form.Pais.value}}{% endif %}" disabled selected hidden>
+                {% if not countryLoaded and not form.Pais.value %}
+                  País del servicio
+                {% endif %}
+                {% if form.Pais.value == "PER" or countryLoaded == "PER" or pais == "PER" %}
+                  Perú
+                {% endif %}
+                {% if form.Pais.value == "ECU" or countryLoaded == "ECU" or pais == "ECU" %}
+                  Ecuador
+                {% endif %}
+              </option>
+            <option value="PER" id="peru">Perú</option>
+            <option value="ECU" id="ecuador" >Ecuador</option>		
+        </select>
+        <!-- {% if empty9 == "1" %}		 --> 
+        <!-- {% endif %}	 -->
+        <div id="PaisMensaje" class="mensajeRequerido" style="display: none;">Indique el país del servicio</div>
+        </div>
+        
+        <div class="alineado margenInferior5" >
+        <div class="etiqueta" >Tipo de moneda (*)</div>
+        <select name="TipoMoneda" id="TipoMoneda" class="combo ancho200"  >
+        <option value="{% if TipoMonedaLoaded %}{{TipoMonedaLoaded}}{% else %}{{form.TipoMoneda.value}}{% endif %}" disabled selected hidden >          
+          {% if not form.TipoMoneda.value and not TipoMonedaLoaded %}
+            Moneda de recaudación
+          {% endif %}
+          {% if form.TipoMoneda.value == "PEN" or TipoMonedaLoaded == "PEN" %}
+            Soles ( S/ )
+          {% endif %}
+          {% if form.TipoMoneda.value == "USD" or TipoMonedaLoaded == "USD" %}
+            Dólares ( $ )
+          {% endif %}
+        </option>
+
+        <option id="soles" value="PEN" >Soles ( S/ )</option>
+        <option id="dolares" value="USD" >Dólares ( $ ) </option>
+        </select>
+        <!-- {% if empty11 == "1" %}		 --> 
+        <!-- {% endif %}	 -->
+        <div id="TipoMonedaMensaje" class="mensajeRequerido" style="display: none;">Indique el tipo de moneda</div>	
+        </div>
+        
+        <div class="alineado margenIzquierdo100 margenInferior5" >
+        <div class="etiqueta"  >Monto (*)</div>
+        <input name="Monto" id="Monto" value="{% if MontoLoaded %}{{MontoLoaded}}{% else %}{{form.Monto.value}}{% endif %}" 
+        type="text" class="cajaTexto ancho200" placeholder="" />
+        <!-- {% if empty11 == "1" %}		 --> 
+        <!-- {% endif %}	 -->
+        <div id="MontoMensaje" class="mensajeRequerido" style="display: none;">Ingresa un monto</div>
+        </div>
+        <div class="siguienteLinea" >
+        
+        <div class="alineado margenIzquierdo40 limpiar " >
+        <label id="btnCancelar" onClick="fnCall()" name="btnCancelar" class="botonSecundario ancho150 margenSuperior30 lblLimpiar" >Limpiar</label>			
+        </div>		
+        
+        <div class="alineado margenIzquierdo150 " >
+          <button id="btnGuardar-conForm" type="submit" name="btnGuardar-conForm" class="botonPrincipal ancho150 margenSuperior30 guardarConfig" >Guardar</button>
+
+            <label id="btnGuardar-sinForm" onClick="fnCallDisabled()" type="submit" name="btnGuardar-conForm" disabled="true" class="botonPrincipal ancho150 margenSuperior30 guardarConfig" >Guardar</label>
+
+        </div>	
+        
+        </div>
+      
+      </form>
+      </div><!--cuerpo fin-->		
+      
+    </div><!--página fin-->
+    <script>
+      var btnConForm = document.getElementById("btnGuardar-conForm");
+      var btnSinForm = document.getElementById("btnGuardar-sinForm");
+      var btnClean = document.getElementById("btnCancelar")
+      btnConForm.style.display = "none";
+
+      // if (btnClean) {
+       function fnCallDisabled() {
+        if (selectIntegration && selectIntegration[0].value === "") {
+          selectIntegration[0].style.border = "1px solid #FF0000";
+          msgIntegration[0].style.display = "block";
+        }
+        if (selectMoneda && selectMoneda[0].value === "") {
+          selectMoneda[0].style.border = "1px solid #FF0000";
+          msgMoneda[0].style.display = "block";
+        }
+        if (selectPais && selectPais[0].value === "") {
+          selectPais[0].style.border = "1px solid #FF0000";
+          msgPais[0].style.display = "block";
+        }
+        if (inputMonto && inputMonto[0].value === "") {
+          inputMonto[0].value = ""
+          inputMonto[0].style.border = "1px solid #FF0000";
+          msgMonto[0].style.display = "block";
+        }
+        if (inputServidor && inputServidor[0].value === "") {
+            inputServidor[0].value = ""
+            inputServidor[0].style.border = "1px solid #FF0000";
+            msgServidor[0].style.display = "block";
+        }
+        if (inputAccess && inputAccess[0].value === "") {
+            inputAccess[0].value = ""
+            inputAccess[0].style.border = "1px solid #FF0000";
+            msgAccess[0].style.display = "block";
+        }
+        if (inputSecret && inputSecret[0].value === "") {
+            inputSecret[0].value = ""
+            inputSecret[0].style.border = "1px solid #FF0000";
+            msgSecret[0].style.display = "block";
+        }
+        if (inputComercio && inputComercio[0].value === "") {
+            inputComercio[0].value = ""
+            inputComercio[0].style.border = "1px solid #FF0000";
+            msgComercio[0].style.display = "block";
+        }
+        if (inputNomComercio && inputNomComercio[0].value === "") {
+            inputNomComercio[0].value = ""
+            inputNomComercio[0].style.border = "1px solid #FF0000";
+            msgNomComercio[0].style.display = "block";
+        }
+        if (inputEmailComercio && inputEmailComercio[0].value === "") {
+            inputEmailComercio[0].value = ""
+            inputEmailComercio[0].style.border = "1px solid #FF0000";
+            msgEmailComercio[0].style.display = "block";
+        }
+        if (inputTiempoExp && inputTiempoExp[0].value === "") {
+            inputTiempoExp[0].value = ""
+            inputTiempoExp[0].style.border = "1px solid #FF0000";
+            msgTiempoExp[0].style.display = "block";
+        }
+       }
+       function fnCall () {
+        if (inputMonto && inputMonto[0].value) {
+          inputMonto[0].value = ""
+          inputMonto[0].style.border = "1px solid #B3B3B3";
+          msgMonto[0].style.display = "none";
+        }
+        if (inputServidor && inputServidor[0].value) {
+            inputServidor[0].value = ""
+            inputServidor[0].style.border = "1px solid #B3B3B3";
+            msgServidor[0].style.display = "none";
+        }
+        if (inputAccess && inputAccess[0].value) {
+            inputAccess[0].value = ""
+            inputAccess[0].style.border = "1px solid #B3B3B3";
+            msgAccess[0].style.display = "none";
+        }
+        if (inputSecret && inputSecret[0].value) {
+            inputSecret[0].value = ""
+            inputSecret[0].style.border = "1px solid #B3B3B3";
+            msgSecret[0].style.display = "none";
+        }
+        if (inputComercio && inputComercio[0].value) {
+            inputComercio[0].value = ""
+            inputComercio[0].style.border = "1px solid #B3B3B3";
+            msgComercio[0].style.display = "none";
+        }
+        if (inputNomComercio && inputNomComercio[0].value) {
+            inputNomComercio[0].value = ""
+            inputNomComercio[0].style.border = "1px solid #B3B3B3";
+            msgNomComercio[0].style.display = "none";
+        }
+        if (inputEmailComercio && inputEmailComercio[0].value) {
+            inputEmailComercio[0].value = ""
+            inputEmailComercio[0].style.border = "1px solid #B3B3B3";
+            msgEmailComercio[0].style.display = "none";
+        }
+        if (inputTiempoExp && inputTiempoExp[0].value) {
+            inputTiempoExp[0].value = ""
+            inputTiempoExp[0].style.border = "1px solid #B3B3B3";
+            msgTiempoExp[0].style.display = "none";
+        }
+        if (selectIntegration && selectIntegration[0].value) {
+            selectIntegration[0].value = ""
+            selectIntegration[0].style.border = "1px solid #B3B3B3";
+            msgIntegration[0].style.display = "none";
+            var optDefault = document.createElement('option');
+            optDefault.id = "";
+            optDefault.value = ""
+            optDefault.selected= true
+            optDefault.hidden="hidden"
+            optDefault.disabled="disabled"
+            optDefault.innerHTML = "Selecciona la modalidad de integración"
+            var optIframe = document.createElement('option');
+            optIframe.id = "";
+            optIframe.value = "IFR"
+            optIframe.innerHTML = "Iframe"
+            var optRedirect = document.createElement('option');
+            optRedirect.id = "";
+            optRedirect.value = "RED"
+            optRedirect.innerHTML = "Redirect"
+            var x = document.getElementById("optDefaultCurrency");
+            var y = document.getElementById("iframe");
+            var z = document.getElementById("redirect");
+            if (x) x.remove(x.selectedIndex);
+            if (y) y.remove(y.selectedIndex);
+            if (z) z.remove(z.selectedIndex);
+            selectIntegration[0].appendChild(optDefault);
+            selectIntegration[0].appendChild(optIframe);
+            selectIntegration[0].appendChild(optRedirect);
+        }
+        if (selectPais && selectPais[0].value) {
+            selectPais[0].value = ""
+            selectPais[0].style.border = "1px solid #B3B3B3";
+            msgPais[0].style.display = "none";
+            var optDefault = document.createElement('option');
+            optDefault.id = "";
+            optDefault.value = ""
+            optDefault.selected= true
+            optDefault.hidden="hidden"
+            optDefault.disabled="disabled"
+            optDefault.innerHTML = "País del servicio"
+            var optPeru = document.createElement('option');
+            optPeru.id = "";
+            optPeru.value = "PER"
+            optPeru.innerHTML = "Perú"
+            var optEcuador = document.createElement('option');
+            optEcuador.id = "";
+            optEcuador.value = "ECU"
+            optEcuador.innerHTML = "Ecuador"
+            var x = document.getElementById("optDefaultCurrency");
+            var y = document.getElementById("peru");
+            var z = document.getElementById("ecuador");
+            if (x) x.remove(x.selectedIndex);
+            if (y) y.remove(y.selectedIndex);
+            if (z) z.remove(z.selectedIndex);
+            selectPais[0].appendChild(optDefault);
+            selectPais[0].appendChild(optPeru);
+            selectPais[0].appendChild(optEcuador);
+        }
+        if (selectMoneda && selectMoneda[0].value) {
+            selectMoneda[0].value = ""
+            selectMoneda[0].style.border = "1px solid #B3B3B3";
+            msgMoneda[0].style.display = "none";
+            var optDefault = document.createElement('option');
+            optDefault.id = "";
+            optDefault.value = ""
+            optDefault.selected= true
+            optDefault.hidden="hidden"
+            optDefault.disabled="disabled"
+            optDefault.innerHTML = "Moneda de recaudación"
+            var optSoles = document.createElement('option');
+            optSoles.id = "soles";
+            optSoles.value = "PEN"
+            optSoles.innerHTML = "Soles ( S/ )"
+            var optDolares = document.createElement('option');
+            optDolares.id = "dolares";
+            optDolares.value = "USD"
+            optDolares.innerHTML = "Dólares ( $ )"
+            var x = document.getElementById("optDefaultCurrency");
+            var y = document.getElementById("soles");
+            var z = document.getElementById("dolares");
+            if (x) x.remove(x.selectedIndex);
+            if (y) y.remove(y.selectedIndex);
+            if (z) z.remove(z.selectedIndex);
+            selectMoneda[0].appendChild(optDefault);
+            selectMoneda[0].appendChild(optSoles);
+            selectMoneda[0].appendChild(optDolares);
+        }
+        btnSinForm.style.display = "block"
+        btnConForm.style.display = "none"
+      }
+
+      var message_ele = document.querySelectorAll(".mensajeCorrecto");
+      var message_Incorrecto = document.querySelectorAll(".mensajeIncorrecto");
+
+      var inputServidor = document.querySelectorAll("#ServidorPagoEfectivo");
+      var msgServidor = document.querySelectorAll("#ServidorPagoEfectivoMensaje");
+
+      var inputAccess = document.querySelectorAll("#AccessKey");
+      var msgAccess = document.querySelectorAll("#AccessKeyMensaje");
+
+      var inputSecret = document.querySelectorAll("#SecretKey");
+      var msgSecret = document.querySelectorAll("#SecretKeyMensaje");
+      
+      var inputComercio = document.querySelectorAll("#IDComercio");
+      var msgComercio = document.querySelectorAll("#IDComercioMensaje");
+      
+      var inputNomComercio = document.querySelectorAll("#NombreComercio");
+      var msgNomComercio = document.querySelectorAll("#NombreComercioMensaje");
+      
+      var inputEmailComercio = document.querySelectorAll("#EmailComercio");
+      var msgEmailComercio = document.querySelectorAll("#EmailComercioMensaje");
+  
+      var inputTiempoExp = document.querySelectorAll("#TiempoExpiracionPago");
+      var msgTiempoExp = document.querySelectorAll("#TiempoExpiracionPagoMensaje");
+    
+      var inputMonto = document.querySelectorAll("#Monto");
+      var msgMonto = document.querySelectorAll("#MontoMensaje");      
+    
+      var selectIntegration = document.querySelectorAll("#ModoIntegracion");
+      var msgIntegration = document.querySelectorAll("#ModoIntegracionMensaje");
+
+      var selectPais = document.querySelectorAll("#Pais");
+      var msgPais = document.querySelectorAll("#PaisMensaje");
+
+      var selectMoneda = document.querySelectorAll("#TipoMoneda");
+      var msgMoneda = document.querySelectorAll("#TipoMonedaMensaje");
+
+      if (selectIntegration[0].value.length && selectMoneda[0].value.length && selectPais[0].value.length) {
+        btnSinForm.style.display = "none"
+        btnConForm.style.display = "block"
+      }
+  
+      if (message_ele && message_ele[0]) {
+        setTimeout(function(){   
+          message_ele[0].style.display = "none"; 
+        }, 4000);
+      }
+  
+      if (message_Incorrecto && message_Incorrecto[0]) {
+        setTimeout(function(){   
+          message_Incorrecto[0].style.display = "none"; 
+        }, 4000);
+      }
+
+    if (inputServidor && inputServidor[0]) {
+        const input = inputServidor[0];
+        if(inputServidor[0].value.length == 0){
+            inputServidor[0].style.border = "1px solid #ff0000";
+            msgServidor[0].style.display = "block"; 
+        }
+        const valueCurrent = input.value
+        input.addEventListener('input', evt => {
+          if (evt) {
+            if (evt.target.value.length === 0) {
+              inputServidor[0].style.border = "1px solid #ff0000";
+              if (msgServidor && msgServidor[0]) {
+                msgServidor[0].style.display = "block"; 
+              } 
+            } else {
+            inputServidor[0].style.border = "1px solid #B3B3B3";
+            if (msgServidor && msgServidor[0]) {
+              msgServidor[0].style.display = "none";
+              }
+            }
+          }
+        })
+    }
+    if (inputAccess && inputAccess[0]) {
+      const input = inputAccess[0];
+      if(inputAccess[0].value.length == 0){
+          inputAccess[0].style.border = "1px solid #ff0000";
+          msgAccess[0].style.display = "block";
+      }
+      input.addEventListener('input', evt => {
+        if (evt) {
+          if (evt.target.value.length === 0) {
+            inputAccess[0].style.border = "1px solid #ff0000";
+            if (msgAccess && msgAccess[0]) {
+              msgAccess[0].style.display = "block"; 
+            } 
+          } else {
+            inputAccess[0].style.border = "1px solid #B3B3B3";
+          if (msgAccess && msgAccess[0]) {
+            msgAccess[0].style.display = "none"; 
+            }
+          }
+        }
+      })
+    }
+    if (inputSecret && inputSecret[0]) {
+      const input = inputSecret[0];
+      if(inputSecret[0].value.length == 0){
+          inputSecret[0].style.border = "1px solid #ff0000";
+          msgSecret[0].style.display = "block"; 
+      }
+      input.addEventListener('input', evt => {
+        if (evt) {
+          if (evt.target.value.length === 0) {
+            inputSecret[0].style.border = "1px solid #ff0000";
+            if (msgSecret && msgSecret[0]) {
+              msgSecret[0].style.display = "block"; 
+            } 
+          } else {
+          inputSecret[0].style.border = "1px solid #B3B3B3";
+          if (msgSecret && msgSecret[0]) {
+            msgSecret[0].style.display = "none"; 
+            }
+          }
+        }
+      })
+    }
+    if (inputComercio && inputComercio[0]) {
+      const input = inputComercio[0];
+      if(inputComercio[0].value.length == 0){
+          inputComercio[0].style.border = "1px solid #ff0000";
+          msgComercio[0].style.display = "block"; 
+      }
+      input.addEventListener('input', evt => {
+        if (evt) {
+          if (evt.target.value.length === 0) {
+            inputComercio[0].style.border = "1px solid #ff0000";
+            if (msgComercio && msgComercio[0]) {
+              msgComercio[0].style.display = "block"; 
+            } 
+          } else {
+          inputComercio[0].style.border = "1px solid #B3B3B3";
+          if (msgComercio && msgComercio[0]) {
+            msgComercio[0].style.display = "none"; 
+            }
+          }
+        }
+      })
+    }
+    if (inputNomComercio && inputNomComercio[0]) {
+      const input = inputNomComercio[0];
+      if(inputNomComercio[0].value.length == 0){
+          inputNomComercio[0].style.border = "1px solid #ff0000";
+          msgNomComercio[0].style.display = "block"; 
+      }
+      input.addEventListener('input', evt => {
+        if (evt) {
+          if (evt.target.value.length === 0) {
+            inputNomComercio[0].style.border = "1px solid #ff0000";
+            if (msgNomComercio && msgNomComercio[0]) {
+              msgNomComercio[0].style.display = "block"; 
+            } 
+          } else {
+          inputNomComercio[0].style.border = "1px solid #B3B3B3";
+          if (msgNomComercio && msgNomComercio[0]) {
+            msgNomComercio[0].style.display = "none"; 
+            }
+          }
+        }
+      })
+    }
+    var isValid = false;
+    function validateFormat(email) {
+      if (email) {
+        if (email.indexOf("@") !== -1)
+         isValid = true
+        else isValid = false
+      }
+      return isValid;
+    }
+    if (inputEmailComercio && inputEmailComercio[0]) {
+      const input = inputEmailComercio[0];
+      const resultValidation = this.validateFormat(inputEmailComercio[0].value)
+      btnConForm.disabled= true
+      if (resultValidation) btnConForm.disabled= false
+      if(inputEmailComercio[0].value.length == 0 || resultValidation === false){
+          inputEmailComercio[0].style.border = "1px solid #ff0000";
+          msgEmailComercio[0].style.display = "block";
+      }
+      input.addEventListener('input', evt => {
+        if (evt) {          
+          const result = this.validateFormat(inputEmailComercio[0].value)
+          if (evt.target.value.length === 0 || result === false) {
+            btnConForm.disabled= true
+            inputEmailComercio[0].style.border = "1px solid #ff0000";
+            if (msgEmailComercio && msgEmailComercio[0]) {
+              msgEmailComercio[0].style.display = "block"; 
+            } 
+          } else {
+          btnConForm.disabled= false
+          inputEmailComercio[0].style.border = "1px solid #B3B3B3";
+          if (msgEmailComercio && msgEmailComercio[0]) {
+            msgEmailComercio[0].style.display = "none"; 
+            }
+          }
+        }
+      })
+    }
+    if (inputTiempoExp && inputTiempoExp[0]) {
+      const input = inputTiempoExp[0];
+      if(inputTiempoExp[0].value.length == 0){
+          inputTiempoExp[0].style.border = "1px solid #ff0000";
+          msgTiempoExp[0].style.display = "block";
+      }
+      input.addEventListener('input', evt => {
+        if (evt) {
+          if (evt.target.value.length === 0) {
+            inputTiempoExp[0].style.border = "1px solid #ff0000";
+            if (msgTiempoExp && msgTiempoExp[0]) {
+              msgTiempoExp[0].style.display = "block"; 
+            } 
+          } else {
+          inputTiempoExp[0].style.border = "1px solid #B3B3B3";
+          if (msgTiempoExp && msgTiempoExp[0]) {
+            msgTiempoExp[0].style.display = "none"; 
+            }
+          }
+        }
+      })
+    }
+    if (inputMonto && inputMonto[0]) {
+      const input = inputMonto[0];
+      if(inputMonto[0].value.length == 0){
+          inputMonto[0].style.border = "1px solid #ff0000";
+          msgMonto[0].style.display = "block";
+      }
+      input.addEventListener('input', evt => {
+        if (evt) {
+          if (evt.target.value.length === 0) {
+            inputMonto[0].style.border = "1px solid #ff0000";
+            if (msgMonto && msgMonto[0]) {
+              msgMonto[0].style.display = "block"; 
+            } 
+          } else {
+          inputMonto[0].style.border = "1px solid #B3B3B3";
+          if (msgMonto && msgMonto[0]) {
+            msgMonto[0].style.display = "none"; 
+            }
+          }
+        }
+      })
+    }
+    if (selectIntegration && selectIntegration[0]) {
+      const select = selectIntegration[0];
+      if(selectIntegration[0].value == ""){
+          selectIntegration[0].style.border = "1px solid #ff0000";
+          msgIntegration[0].style.display = "block"; 
+      }
+      select.addEventListener('change', evt => {
+         if (evt) {
+           if (evt.target.value.length === 0) {
+             selectIntegration[0].style.border = "1px solid #ff0000";
+             if (msgIntegration && msgIntegration[0]) {
+               msgIntegration[0].style.display = "block"; 
+             } 
+           } else {
+          selectIntegration[0].style.border = "1px solid #B3B3B3";
+          if (msgIntegration && msgIntegration[0]) {
+            msgIntegration[0].style.display = "none"; 
+            if (selectIntegration[0].value && selectMoneda[0].value && selectPais[0].value) {
+              btnSinForm.style.display = "none"
+              btnConForm.style.display = "block"
+              }
+            }
+          }
+        }
+      })
+    }
+    if (selectPais && selectPais[0]) {
+      const optionDolares = document.querySelectorAll("#soles");
+      if(selectPais[0].value === ""){
+          selectPais[0].style.border = "1px solid #ff0000";
+          optionDolares[0].style.display = "block";
+      }
+      if (selectPais[0].value === "ECU") {
+        if (optionDolares && optionDolares[0]) {
+          optionDolares[0].style.display = "none"; 
+          }
+        } else {
+          if (optionDolares && optionDolares[0]) {
+            optionDolares[0].style.display = "block"; 
+          }
+        }
+
+      const select = selectPais[0];
+      if(selectPais[0].value == ""){
+          msgPais[0].style.display = "block";
+      }
+      select.addEventListener('change', evt => {
+         if (evt) {
+           selectPais[0].style.border = "1px solid #B3B3B3";
+             var optDefault = document.createElement('option');
+              optDefault.id = "";
+              optDefault.value = ""
+              optDefault.selected= true
+              optDefault.hidden="hidden"
+              optDefault.disabled="disabled"
+              optDefault.innerHTML = "Moneda de recaudación"
+             var optSoles = document.createElement('option');
+              optSoles.id = "soles";
+              optSoles.value = "PEN"
+              optSoles.innerHTML = "Soles ( S/ )"
+              var optDolares = document.createElement('option');
+              optDolares.id = "dolares";
+              optDolares.value = "USD"
+              optDolares.innerHTML = "Dólares ( $ )"
+           if (evt.target.value === "ECU") {
+              btnSinForm.style.display = "block"
+              btnConForm.style.display = "none"
+              var x = document.getElementById("optDefaultCurrency");
+              var y = document.getElementById("soles");
+              var z = document.getElementById("dolares");
+              if (x) x.remove(x.selectedIndex);
+              if (y) y.remove(y.selectedIndex);
+              if (z) z.remove(z.selectedIndex);
+              selectMoneda[0].appendChild(optDefault);
+              selectMoneda[0].appendChild(optDolares);
+              selectMoneda[0].style.border = "1px solid red";
+              msgMoneda[0].style.display = "block";
+            if (optionDolares && optionDolares[0]) {
+              optionDolares[0].style.display = "none";
+             }
+             if (selectIntegration[0].value && selectMoneda[0].value && selectPais[0].value) {
+              btnSinForm.style.display = "none"
+              btnConForm.style.display = "block"
+              }
+           } else {
+              btnSinForm.style.display = "block"
+              btnConForm.style.display = "none"
+              var x = document.getElementById("optDefaultCurrency");
+              var y = document.getElementById("soles");
+              var z = document.getElementById("dolares");
+              if (x) x.remove(x.selectedIndex);
+              if (y) y.remove(y.selectedIndex);
+              if (z) z.remove(z.selectedIndex);
+              selectMoneda[0].appendChild(optDefault);
+              selectMoneda[0].appendChild(optSoles);
+              selectMoneda[0].appendChild(optDolares);
+              selectMoneda[0].style.border = "1px solid red";
+              msgMoneda[0].style.display = "block"; 
+            if (optionDolares && optionDolares[0]) {
+              optionDolares[0].style.display = "block"; 
+             }
+             if (selectIntegration[0].value && selectMoneda[0].value && selectPais[0].value) {
+              btnSinForm.style.display = "none"
+              btnConForm.style.display = "block"
+              }
+           }
+           if (evt.target.value.length === 0) {
+             if (msgPais && msgPais[0]) {
+               msgPais[0].style.display = "block"; 
+             } 
+           } else {
+          if (msgPais && msgPais[0]) {
+            msgPais[0].style.display = "none"; 
+            }
+          }
+        }
+      })
+    }
+    if (selectMoneda && selectMoneda[0]) {
+      const select = selectMoneda[0];
+      if(selectMoneda[0].value == ""){
+          selectMoneda[0].style.border = "1px solid #ff0000";
+          msgMoneda[0].style.display = "block";
+      }
+      select.addEventListener('change', evt => {
+        // const bntSaveAux = document.getElementById("btnGuardar");
+         if (evt) {
+           selectMoneda[0].style.border = "1px solid #B3B3B3";
+          //  bntSaveAux.disabled = false
+           if (evt.target.value.length === 0) {
+             if (msgMoneda && msgMoneda[0]) {
+               msgMoneda[0].style.display = "block"; 
+             } 
+           } else {
+          if (msgMoneda && msgMoneda[0]) {
+            msgMoneda[0].style.display = "none"; 
+            }
+            if (selectIntegration[0].value && selectMoneda[0].value && selectPais[0].value) {
+              btnSinForm.style.display = "none"
+              btnConForm.style.display = "block"
+              }
+          }
+        }
+      })
+    }
+      inputMonto[0].addEventListener("keypress", function (evt) {
+          if (evt.which != 8 && evt.which != 0 && evt.which < 46 || evt.which > 57 || evt.which === 47  )
+          {
+              evt.preventDefault();
+          }
+      });
+      inputComercio[0].addEventListener("keypress", function (evt) {
+          if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+          {
+              evt.preventDefault();
+          }
+      });
+      inputTiempoExp[0].addEventListener("keypress", function (evt) {
+          if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+          {
+              evt.preventDefault();
+          }
+      });
+    </script>
+</body>
+
+</html>

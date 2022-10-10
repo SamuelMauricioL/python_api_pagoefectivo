@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Notificación</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'cadmin/css/style.css' %}">
+</head>
+
+<body>
+  <div class="pagina" >
+
+    <div class="barraTitulo" ><!--barraTítulo inicio-->
+      <div class="alineado margenIzquierdo10 margenSuperior10" ><img src="{% static 'cadmin/img/logoPagoEfectivo.png' %}" /></div>
+      <div class="lineaSeparadoraVertical alineado margenIzquierdo20" ></div>
+      <div class="titulo alineado" >Notificación CIP</div>
+    </div><!--barraTítulo fin-->
+    
+    <div class="barraMenu" ><!--barraMenu inicio-->
+  
+    <div class="itemMenu margenIzquierdo5 margenSuperior20" >CÓDIGO DE PAGO</div>
+  
+    <div class="itemMenu" >
+    <img src="{% static 'cadmin/img/vinetaCruz.png' %}" class="vinetaItemMenu alineado margenIzquierdo10 margenSuperior5" />
+    <div class="alineado margenIzquierdo5 margenSuperior5" ><a href="{% url 'home' %}">Generar CIP</a></div>
+    </div>
+  
+    <div class="itemMenu itemMenuSeleccionado" >
+    <img src="{% static 'cadmin/img/vinetaSiguiente.png' %}" class="vinetaItemMenu alineado margenIzquierdo10 margenSuperior5" />
+    <div class="alineado margenIzquierdo5 margenSuperior5" ><a href="{% url 'notification' %}">Notificación CIP</a></div>	
+    </div>
+  
+    <div class="itemMenuPie" >	
+    <img src="{% static 'cadmin/img/vinetaAyuda.png' %}" class="vinetaItemMenuPie alineado margenIzquierdo10 margenSuperior5" />
+    <div class=" alineado margenIzquierdo5 margenSuperior5" ><a href="https://centraldeayuda.pagoefectivo.pe/hc/es">Ayuda</a></div>
+    </div>
+    
+    <div class="itemMenuPie " >			
+    <img src="{% static 'cadmin/img/vinetaConfiguracion.png' %}" class="vinetaItemMenuPie alineado margenIzquierdo10 margenSuperior5" />			
+    <div class="alineado margenIzquierdo5 margenSuperior5" ><a href="{% url 'configuration' %}">Configuración</a></div>			
+    </div>
+    
+      <div class="siguienteLinea lineaMenu" ></div>	
+      
+    <div class="alineado" >	
+    <img src="{% static 'cadmin/img/vinetaAtras.png' %}" class="vinetaInferiorDerechaMenuPie alineado" />
+    </div>
+    
+    </div><!--barraMenu fin-->
+  
+    <div class="cuerpo" ><!--cuerpo inicio-->
+    
+      <!-- <div id="accionMensaje" class="mensajeIncorrecto">El PE-Signature es incorrecto</div>
+      <div id="accionMensaje" class="mensajeCorrecto">El PE-Signature es correcto</div> -->
+      {% if key_filed == "1" %}
+      <div id="accionMensaje" class="mensajeCorrecto show-save">El PE-Signature es correcto</div>
+      {% endif %}
+      {% if key_filed == "2" %}
+        <div id="accionMensaje" class="mensajeIncorrecto ">El PE-Signature es incorrecto</div>
+      {% endif %}
+      <form id="notificaFormulario" method="post" action=""  >
+        {% csrf_token %}
+        {{ form }}
+      <div class="siguienteLinea margenInferior5" >
+        {{ form.non_field_errors }}
+      <div class="etiqueta" >PE-Signature (*)</div>
+
+      <input id="signature" name="signature" type="text" class="cajaTexto ancho500" value="{% if key_filed == '1' %}{{emptyField}}{% else %}{{form.signature.value}}{% endif %}" placeholder="Data">
+      {% if emptySigt == "1" %}
+        <div id="PE-SignatureMensaje" class="mensajeRequerido">Indique el PE-Signature</div>		
+      {% endif %}
+    </div>
+      
+      <div class="siguienteLinea margenInferior5" >
+      <div class="etiqueta" >Request Body (*)</div>
+      <textarea id="requestBody" name="requestBody" type="text" class="cajaTexto ancho500 alto150" placeholder="Data" >{% if not cleanBody %}{"eventType" : "cip.paid","operationNumber" : "","data" : {"cip" : "","currency" : "","amount" : }}{% endif %}</textarea>	
+      {% if emptyRq == "1" %}
+      <div id="requestBodyMensaje" class="mensajeRequerido" >Cargue la requestBody</div>
+      {% endif %}
+      </div>
+    
+      <div class="siguienteLinea" >
+      <div class="alineado margenIzquierdo40 limpiar" >
+      <input id="btnLimpiar" type="submit" name="btnLimpiar" class="SubbotonSecundario ancho150 margenSuperior30" value="Limpiar" ></input>		
+      </div>		
+      
+      <div class="alineado margenIzquierdo150 " >
+      <button id="btnValidar" type="submit" class="botonPrincipal ancho150 margenSuperior30" >Validar</button>			
+      </div>	
+      
+      </div>	
+  
+  </form>	
+    
+  </div><!--cuerpo fin-->		
+    
+  </div><!--página fin-->
+  <script>
+    var message_ele = document.querySelectorAll(".mensajeCorrecto");
+    var message_Incorrecto = document.querySelectorAll(".mensajeIncorrecto");
+    var inputSignature = document.querySelectorAll("#signature");
+    var msgSignature = document.querySelectorAll("#PE-SignatureMensaje");
+
+    if (message_ele && message_ele[0]) {
+      console.log(message_ele[0])
+      setTimeout(function(){   
+        message_ele[0].style.display = "none"; 
+      }, 4000);
+    }
+  
+    if (message_Incorrecto && message_Incorrecto[0]) {
+      console.log(message_Incorrecto[0])
+      setTimeout(function(){   
+        message_Incorrecto[0].style.display = "none"; 
+      }, 4000);
+    }
+
+    if (inputSignature && inputSignature[0]) {
+      console.log(inputSignature[0])
+      const input = inputSignature[0];
+      input.addEventListener('input', evt => {
+        if (evt) {
+          console.log('tecleo signature')
+          if (msgSignature && msgSignature[0]) {
+            msgSignature[0].style.display = "none"; 
+          }
+        }
+
+      })
+    }
+  </script>
+</body>
+
+</html>

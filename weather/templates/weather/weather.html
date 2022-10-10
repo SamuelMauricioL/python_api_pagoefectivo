@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Generar CIP</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'cadmin/css/style.css' %}">
+</head>
+
+<body>
+    <div class="pagina" ><!--página inicio-->
+
+        <div class="barraTitulo" ><!--barraTítulo inicio-->
+            <div class="alineado margenIzquierdo10 margenSuperior10" ><img src="{% static 'cadmin/img/logoPagoEfectivo.png' %}" /></div>
+            <div class="lineaSeparadoraVertical alineado margenIzquierdo20" ></div>
+            <div class="titulo alineado" >Generar CIP</div>
+        </div><!--barraTítulo fin-->
+        
+        <div class="barraMenu" ><!--barraMenu inicio-->
+    
+        <div class="itemMenu margenIzquierdo5 margenSuperior20" >CÓDIGO DE PAGO</div>
+    
+        <div class="itemMenu itemMenuSeleccionado" >
+        <img src="{% static 'cadmin/img/vinetaCruz.png' %}" class="vinetaItemMenu alineado margenIzquierdo10 margenSuperior5" />
+        <div class="alineado margenIzquierdo5 margenSuperior5" ><a href="{% url 'home' %}">Generar CIP</a></div>
+        </div>
+    
+        <div class="itemMenu" >
+        <img src="{% static 'cadmin/img/vinetaSiguiente.png' %}" class="vinetaItemMenu alineado margenIzquierdo10 margenSuperior5" />
+        <div class="alineado margenIzquierdo5 margenSuperior5" ><a href="{% url 'notification' %}">Notificación CIP</a></div>	
+        </div>
+    
+        <div class="itemMenuPie" >	
+        <img src="{% static 'cadmin/img/vinetaAyuda.png' %}" class="vinetaItemMenuPie alineado margenIzquierdo10 margenSuperior5" />
+        <div class=" alineado margenIzquierdo5 margenSuperior5" ><a href="https://centraldeayuda.pagoefectivo.pe/hc/es">Ayuda</a></div>
+        </div>
+        
+        <div class="itemMenuPie " >			
+        <img src="{% static 'cadmin/img/vinetaConfiguracion.png' %}" class="vinetaItemMenuPie alineado margenIzquierdo10 margenSuperior5" />			
+        <div class="alineado margenIzquierdo5 margenSuperior5" ><a href="{% url 'configuration' %}">Configuración</a></div>			
+        </div>
+        
+            <div class="siguienteLinea lineaMenu" ></div>	
+            
+        <div class="alineado" >	
+        <img src="{% static 'cadmin/img/vinetaAtras.png' %}" class="vinetaInferiorDerechaMenuPie alineado" />
+            </div>
+            
+        </div>
+
+
+        <div class="cuerpo" >
+        {% if esPostBack == 1 and modoIntegrationLoaded == "IFR" %}
+            <iframe src={{enlaceCIP}} class="marco"></iframe>
+        {% endif %}
+        {% if esPostBack == 0 %}
+        <div id="cuerpoContenido">
+            <form id="generaFormulario" name="generaFormulario" method="post"  >
+        
+        
+            <div class="siguienteLinea margenSuperior30" >	
+                <div class="seccionTitulo ancho750 margenIzquierdo40 alineado" >
+                Métodos de Pago
+                </div>
+                <div class="seccionTitulo ancho300 margenIzquierdo40 alineado" >
+                <div class="alineado" >Resumen de Compra</div>
+                <img src="{% static 'cadmin/img/vinetaCarritoCompra.png' %}" class="margenIzquierdo120 alineado" />
+                </div>
+            </div>
+        
+            <div class="siguienteLinea" >	
+                <div class="seccionCuerpo ancho750 margenIzquierdo40 alineado" >
+                
+                    <!-- columnas-->
+                    <div class="alineado" >
+                    
+                    <!-- columna1-->
+                    <div class="alineado" >
+                    
+                    <!-- Banner1 -->
+                    <div class="siguienteLinea bannerBlanco margenSuperior20 margenIzquierdo10" >
+                        <div class="alineado ancho50" >
+                        <img src="{% static 'cadmin/img/vinetaTarjeta.png' %}" class="margenIzquierdo10 margenSuperior10" />
+                        </div>
+                        <div class="alineado ancho150 margenIzquierdo10 margenSuperior10" >
+                            <div class="siguienteLinea" >OPCIÓN 1</div>
+                            <div class="siguienteLinea" >Tarjeta de crédito o débito</div>
+                        </div>				
+                    
+                    </div>
+                    <!-- Fin de Banner1 -->
+                    
+                    <!-- Banner2 -->
+                    <div class="siguienteLinea bannerGris margenSuperior20 margenIzquierdo10" >
+                        <div class="alineado ancho50" >
+                        <img src="{% static 'cadmin/img/vinetaPagoEfectivo.png' %}" class="margenIzquierdo10 margenSuperior10" />
+                        </div>
+                        <div class="alineado ancho150 margenIzquierdo10 margenSuperior10" >
+                            <div class="siguienteLinea" >OPCIÓN 2</div>
+                            <div class="siguienteLinea" >Depósitos y<br/> transferencias</div>
+                        </div>
+                    
+                    </div>
+                    <!-- Fin de Banner2 -->
+                    
+                    <!-- Banner3 -->
+                    <div class="siguienteLinea bannerBlanco margenSuperior20 margenIzquierdo10" >
+                        <div class="alineado ancho50" >
+                        <img src="{% static 'cadmin/img/vinetaBolso.png' %}" class="margenIzquierdo10 margenSuperior10" />
+                        </div>
+                        <div class="alineado ancho150 margenIzquierdo10 margenSuperior10" >
+                            <div class="siguienteLinea" >OPCIÓN 3</div>
+                            <div class="siguienteLinea" >Pago contra entrega</div>
+                        </div>
+                    
+                    </div>		
+                    <!-- Fin de Banner3 -->			
+            
+                    </div>
+                    <!-- fin de columna1-->		
+        
+                <!-- columna2-->
+                <div class="alineado" >
+                        <!-- fila1 -->
+                        <div class="siguienteLinea" >
+                        <img src="{% static 'cadmin/img/bannerPagoEfectivo.png' %}" class="margenIzquierdo350 margenSuperior30" />
+                        </div>
+                        <!-- fin de fila1 -->
+                    
+                        <!-- fila2 -->
+                        {% if country == "PER" %}
+                        <div class="siguienteLinea margenIzquierdo20 margenSuperior10">
+                            <div class="alineado ancho20" >
+                            <img src="{% static 'cadmin/img/vinetaCheck.png' %}" class="margenIzquierdo5 margenSuperior5" />
+                            </div>
+                            <div class="alineado ancho450 alineacionJustificada" >
+                            <strong>Depósitos en efectivo vía pagoEfectivo -</strong> Paga en BBVA, BCP, Interbank, Scotiabank, BanBif, 
+                            Western Union, Tambo+, Kasnet, Full Carga, Red Digital, Money Gram, Caja Arequipa, Disashop, 
+                            en cualquier agente o agencia autorizada a nivel nacional a la cuenta de PagoEfectivo <span class="enlace"  >¿Cómo funciona?</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- fin de fila2 -->
+                        
+                        <!-- fila3 -->
+                        {% if country == "PER" %}
+                        <div class="siguienteLinea margenIzquierdo20 margenSuperior80" >
+                            <div class="alineado ancho20" >
+                            <img src="{% static 'cadmin/img/vinetaCheck.png' %}" class="margenIzquierdo5 margenSuperior5" />
+                            </div>
+                            <div class="alineado ancho450 alineacionJustificada" >
+                            <strong>Transferencias bancarias vía PagoEfectivo -</strong>  Paga en BBVA, BCP, Interbank, Scotiabank, BanBif,
+                            Caja Arequipa, a través de la banca por Internet o banca móvil en la opción pago de servicios 
+                             <span class="enlace"  >¿Cómo funciona?</span>
+                            </div>				
+                        </div>
+                        {% endif %}
+                        <!-- fin de fila3 -->				
+        
+                        <!-- fila4 -->
+                        {% if country == "PER" %}
+                        <div class="siguienteLinea margenIzquierdo20">
+                            <div class="alineado ancho20 margenSuperior20" >
+                            <img src="{% static 'cadmin/img/vinetaAsterisco.png' %}" class="margenIzquierdo5 margenSuperior5" />
+                            </div>
+                            <div class="alineado ancho450 " >
+                            <img src="{% static 'cadmin/img/bbva.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/bcp.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/interbank.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/scotiabank.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/banbif.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/westerunion.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/tambo.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/kasnet.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/fullcarga.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/agenteRedDigital.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/moneygram.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/cajaarequipa.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/disashop.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            </div>
+                        </div>
+                        {% endif %}		
+                        <!-- fin de fila4 -->			
+                        <!-- Fin de Contenido Perú -->
+                    
+                        <!-- fila5 -->
+                        {% if country == "ECU" %}
+                        <div class="siguienteLinea margenIzquierdo20 margenSuperior10">
+                            <div class="alineado ancho20" >
+                            <img src="{% static 'cadmin/img/vinetaCheck.png' %}" class="margenIzquierdo5 margenSuperior5" />
+                            </div>
+                            <div class="alineado ancho450 alineacionJustificada" >
+                            <strong>Depósitos en efectivo vía PagoEfectivo -</strong> Paga en efectivo en Western Union Red activa, 
+                            Facilito y Almacenes TIA a nivel nacional  <span class="enlace"  >¿Cómo funciona?</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- fin de fila5 -->
+                        
+                        <!-- fila6 -->
+                        {% if country == "ECU" %}
+                        <div class="siguienteLinea margenIzquierdo20">
+                            <div class="alineado ancho20 margenSuperior20" >
+                            <img src="{% static 'cadmin/img/vinetaAsterisco.png' %}" class="margenIzquierdo5 margenSuperior5" />
+                            </div>
+                            <div class="alineado ancho450 " >
+                            <img src="{% static 'cadmin/img/activa.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/facilito.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            <img src="{% static 'cadmin/img/tia.png' %}" class="margenIzquierdo5 margenSuperior10" />
+                            
+                            </div>
+                        </div>
+                        {% endif %}		
+                        <!-- fin de fila6 -->						
+                    
+                    </div><!-- fin de columna2-->				
+                
+                </div><!-- fin de columnas-->
+                    
+                </div>
+        
+                <div class="seccionCuerpo ancho300 margenIzquierdo40 alineado" >
+                    <!-- fila1 -->
+                        <div class="alineado margenIzquierdo10 margenSuperior10" >
+                            <div class="alineado ancho60" >
+                            <img src="{% static 'cadmin/img/auricular.png' %}" >
+                            </div>
+                            <div class="alineado margenIzquierdo5 ancho200" >
+                                AUDIFONO con Micro SAMSUNG EO-IG930 LEVEL IN ANC BLACK -
+                                EO-IG930BBEGWW
+                            </div>
+                        </div>
+                    <!-- fin de fila1 -->
+                    <!-- fila2 -->
+                        <div class="siguienteLinea margenIzquierdo80 margenSuperior60" >
+                            <strong id="articuloMoneda" >
+                                {% if currencyLoaded == "PEN" and country != "" %}
+                                S/
+                            {% endif %}
+                            {% if currencyLoaded == "USD" and country != "" %}
+                                $
+                            {% endif %}
+                            </strong>
+                            <strong id="articuloPrecio" >
+                                {{montoFromConfg}}
+                            </strong>
+                        </div>
+                    <!-- fin de fila2 -->		
+                    
+                    <!-- fila3 -->
+                        <div class="siguienteLinea margenIzquierdo20 margenSuperior10" >
+                            <div class="linea" > </div>
+                        </div>
+                    <!-- fin de fila3 -->			
+        
+                    <!-- fila4 -->
+                        <div class="siguienteLinea margenIzquierdo20 margenSuperior10" >
+                            <div class="alineado ancho100 margenInferior5" >
+                            Sub Total
+                            </div>
+                            <div id="precioSubTotal" class="alineado ancho60 margenInferior5" >
+                                {% if currencyLoaded == "PEN" and country != "" %}
+                                    S/ {{montoFromConfg}}
+                                {% endif %}
+                                {% if currencyLoaded == "USD" and country != "" %}
+                                    $ {{montoFromConfg}}
+                                {% endif %}
+                            </div>
+                        </div>
+                    <!-- fin de fila4 -->
+                    
+                    <!-- fila5 -->
+                        <div class="siguienteLinea margenIzquierdo20 margenSuperior10" >
+                            <div class="linea" > </div>
+                        </div>
+                    <!-- fin de fila5 -->			
+                    
+                    <!-- fila6 -->
+                        <div class="siguienteLinea margenIzquierdo20 margenSuperior10" >
+                            <div class="alineado ancho100" >
+                                <strong>Total</strong>	
+                            </div>
+                            <div class="alineado ancho60" >
+                                <div id="precioTotalMoneda" class="alineado" ></div><div class="alineado" id="precioTotal" value="" >                                
+                                    {% if currencyLoaded == "PEN" and country != "" %}
+                                        S/ {{montoFromConfg}}
+                                    {% endif %}
+                                    {% if currencyLoaded == "USD" and country != "" %}
+                                        $ {{montoFromConfg}}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    <!-- fin de fila6 -->			
+                    
+                    <!-- fila7 -->
+                        <div class="siguienteLinea margenIzquierdo60 margenSuperior10" >
+                            {% if disabledButton == False %}
+                                <input  id="btnGuardar" name="btnGuardar" type="submit"  class="botonPrincipal ancho150 margenSuperior30" value="Pagar" ></input>	
+                            {% endif %}
+                            {% if disabledButton == True %}
+                                <button  id="btnGuardar" name="btnGuardar" disabled="true"  class="botonPrincipal ancho150 margenSuperior30">Pagar</button>	
+                            {% endif %}
+                        </div>
+                    <!-- fin de fila7 -->
+                    
+                </div>
+        
+            </div>	
+            
+            <input type="hidden" id="currency" name="currency" />
+            <input type="hidden" id="amount" name="amount" />
+            <input type="hidden" id="transactionCode" name="transactionCode"  />
+            <input type="hidden" id="dateExpiry" name="dateExpiry"  />
+            <input type="hidden" id="paymentConcept" name="paymentConcept"  />
+            <input type="hidden" id="additionalData" name="additionalData"  />
+            <input type="hidden" id="adminEmail" name="adminEmail"  />
+            <input type="hidden" id="userEmail" name="userEmail"  />
+            <input type="hidden" id="userName" name="userName"  />
+            <input type="hidden" id="userLastName" name="userLastName"  />
+            <input type="hidden" id="userUbigeo" name="userUbigeo"  />
+            <input type="hidden" id="userCountry" name="userCountry"  />
+            <input type="hidden" id="userDocumentType" name="userDocumentType"  />
+            <input type="hidden" id="userDocumentNumber" name="userDocumentNumber"  />
+            <input type="hidden" id="userCodeCountry" name="userCodeCountry"  />
+            <input type="hidden" id="userPhone" name="userPhone" value="" />
+            <input type="hidden" id="userId" name="userId" value="" />
+            <input type="hidden" id="serviceId" name="serviceId" value="" />		
+        
+            </form>
+        </div>
+        {% endif %}
+        </div><!-- Cuerpo contenido -->
+        </div><!--cuerpo fin-->		
+        
+    </div><!--página fin-->
+</body>
+
+</html>
